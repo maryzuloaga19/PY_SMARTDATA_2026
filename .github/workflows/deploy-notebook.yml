@@ -69,13 +69,20 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{\"path\":\"$DEST_BASE\"}" \
             "$DEST_HOST/api/2.0/workspace/mkdirs"
-          echo "Importando $file → $dest_path"
+          # Detectar el lenguaje del notebook por la cabecera del archivo exportado
+          header=$(head -n 1 "$file")
+          case "$header" in
+            "-- Databricks notebook source"*) language="SQL" ;;
+            "// Databricks notebook source"*) language="SCALA" ;;
+            *) language="PYTHON" ;;
+          esac
+          echo "Importando $file → $dest_path (lenguaje: $language)"
           response=$(curl -s -X POST \
             -H "Authorization: Bearer $DEST_TOKEN" \
             -H "Content-Type: multipart/form-data" \
             -F "path=$dest_path" \
             -F "format=SOURCE" \
-            -F "language=PYTHON" \
+            -F "language=$language" \
             -F "overwrite=true" \
             -F "content=@$file" \
             "$DEST_HOST/api/2.0/workspace/import")

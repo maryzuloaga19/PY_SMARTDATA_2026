@@ -13,6 +13,26 @@ jobs:
     - name: Install jq & curl
       run: sudo apt-get update && sudo apt-get install -y jq curl
     
+    - name: Validate Databricks credentials
+      run: |
+        validar() {
+          local nombre="$1" host="$2" token="$3"
+          if [ -z "$host" ] || [ -z "$token" ]; then
+            echo "❌ $nombre: el secret HOST o TOKEN está vacío o no existe en GitHub"
+            exit 1
+          fi
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $token" \
+            "${host%/}/api/2.0/preview/scim/v2/Me")
+          if [ "$code" != "200" ]; then
+            echo "❌ $nombre: autenticación fallida contra $host (HTTP $code)"
+            exit 1
+          fi
+          echo "✅ $nombre: credenciales válidas ($host)"
+        }
+        validar "ORIGEN" "${{ secrets.DATABRICKS_ORIGIN_HOST }}" "${{ secrets.DATABRICKS_ORIGIN_TOKEN }}"
+        validar "DESTINO" "${{ secrets.DATABRICKS_DEST_HOST }}" "${{ secrets.DATABRICKS_DEST_TOKEN }}"
+    
     - name: Export multiple notebooks (raw)
       run: |
         ORIGIN_HOST=${{ secrets.DATABRICKS_ORIGIN_HOST }}

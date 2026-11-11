@@ -59,7 +59,7 @@ jobs:
       run: |
         DEST_HOST=${{ secrets.DATABRICKS_DEST_HOST }}
         DEST_TOKEN=${{ secrets.DATABRICKS_DEST_TOKEN }}
-        DEST_BASE="/PROYECTO_SMARTDATA_2026"
+        DEST_BASE="/PROYECTO_SMARTDATA_2026/proceso"
         for file in notebooks_to_deploy/*.py; do
           name=$(basename "$file" .py)
           dest_path="$DEST_BASE/$name"
@@ -163,7 +163,7 @@ jobs:
               "task_key": "preparacion_ambiente",
               "description": "Ejecuta notebook 1.Preparacion_Ambiente con parámetros",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/1.Preparacion_Ambiente",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/1.Preparacion_Ambiente",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "storageName": "pysmartdata2026"                }
@@ -177,7 +177,7 @@ jobs:
               "task_key": "ingest_facturacion_databronze",
               "description": "Ejecuta notebook facturacion_databronze con parámetros",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/2.Ingesta_facturacion_data_bronze",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/2.Ingesta_facturacion_data_bronze",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "container": "raw",
@@ -200,7 +200,7 @@ jobs:
               "task_key": "ingest_recaudos_databronze",
               "description": "Ejecuta notebook recaudos_databronze con parámetros",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/2.Ingesta_recaudos_data_bronze",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/2.Ingesta_recaudos_data_bronze",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "container": "raw",
@@ -223,7 +223,7 @@ jobs:
               "task_key": "transform_facturacion_bronze_silver",
               "description": "Ejecuta notebook transform facturacion_bronze_silve",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/3.Transformacion_facturacion_Bronze_a_Silver",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/3.Transformacion_facturacion_Bronze_a_Silver",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "catalogo": "catalog_pysmartdata",
@@ -248,7 +248,7 @@ jobs:
               "task_key": "transform_recaudos_bronze_silver",
               "description": "Ejecuta notebook transform recaudos_bronze_silver",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/3.Transformacion_recaudos_Bronze_a_Silver",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/3.Transformacion_recaudos_Bronze_a_Silver",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "catalogo": "catalog_pysmartdata",
@@ -274,7 +274,7 @@ jobs:
               "task_key": "Load",
               "description": "Ejecuta notebook 4.Load_Golden con parámetros",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/4.Load_Golden",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/4.Load_Golden",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "catalogo": "catalog_pysmartdata",
@@ -298,7 +298,7 @@ jobs:
               "task_key": "grants",
               "description": "Ejecuta notebook 5.Grants_Medallion con parámetros",
               "notebook_task": {
-                "notebook_path": "/PROYECTO_SMARTDATA_2026/5.Grants_Medallion",
+                "notebook_path": "/PROYECTO_SMARTDATA_2026/proceso/5.Grants_Medallion",
                 "source": "WORKSPACE",
                 "base_parameters": {
                   "catalogo": "catalog_pysmartdata"
@@ -534,7 +534,7 @@ jobs:
         echo "🎉 ¡Despliegue y ejecución completados exitosamente!"
         echo ""
         echo "📊 Resumen:"
-        echo "✅ Notebooks desplegados en /PROYECTO_SMARTDATA_2026 (7):"
+        echo "✅ Notebooks desplegados en /PROYECTO_SMARTDATA_2026/proceso (7):"
         echo "   1.Preparacion_Ambiente, 2.Ingesta_facturacion_data_bronze, 2.Ingesta_recaudos_data_bronze,"
         echo "   3.Transformacion_facturacion_Bronze_a_Silver, 3.Transformacion_recaudos_Bronze_a_Silver,"
         echo "   4.Load_Golden, 5.Grants_Medallion"

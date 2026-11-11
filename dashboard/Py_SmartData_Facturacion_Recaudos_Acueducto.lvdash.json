@@ -236,8 +236,27 @@
       "name": "detalle_suscriptor",
       "displayName": "KPI_DETALLE_SUSCRIPTOR",
       "config": {
+        "source": "catalog_pysmartdata.golden.kpi_detalle_suscriptor",
+        "measures": [
+          {
+            "name": "valor_facturado",
+            "expr": "SUM(valor_facturado)"
+          },
+          {
+            "name": "valor_recaudado",
+            "expr": "SUM(valor_pagado)"
+          },
+          {
+            "name": "saldo_pendiente",
+            "expr": "SUM(saldo_pendiente)"
+          },
+          {
+            "name": "consumo_m3",
+            "expr": "SUM(consumo_m3)"
+          }
+        ],
+        "filter": "periodo BETWEEN 202607 AND 202609",
         "version": "1.1",
-        "source": "WITH cons AS (\n  SELECT suscriptor, periodo, SUM(consumo_m3) AS consumo_m3, MAX(nombre_cliente) AS nombre_cliente\n  FROM catalog_pysmartdata.silver.facturacion_transformed\n  GROUP BY suscriptor, periodo\n)\nSELECT c.suscriptor, c.periodo, c.estrato, c.estado_pago, c.valor_facturado, c.valor_pagado,\n       c.saldo_pendiente, f.consumo_m3, f.nombre_cliente\nFROM catalog_pysmartdata.golden.kpi_cartera_suscriptor c\nLEFT JOIN cons f ON c.suscriptor = f.suscriptor AND c.periodo = f.periodo\nWHERE c.periodo BETWEEN 202607 AND 202609",
         "dimensions": [
           {
             "expr": "suscriptor"
@@ -261,24 +280,6 @@
           },
           {
             "expr": "estado_pago"
-          }
-        ],
-        "measures": [
-          {
-            "name": "valor_facturado",
-            "expr": "SUM(valor_facturado)"
-          },
-          {
-            "name": "valor_recaudado",
-            "expr": "SUM(valor_pagado)"
-          },
-          {
-            "name": "saldo_pendiente",
-            "expr": "SUM(saldo_pendiente)"
-          },
-          {
-            "name": "consumo_m3",
-            "expr": "SUM(consumo_m3)"
           }
         ]
       }

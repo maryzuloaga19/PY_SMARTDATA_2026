@@ -1,0 +1,2012 @@
+{
+  "datasets": [
+    {
+      "name": "kpi_facturacion",
+      "displayName": "KPI_FACTURACION_PERIODO",
+      "config": {
+        "version": "1.1",
+        "source": "catalog_pysmartdata.golden.kpi_facturacion_periodo",
+        "dimensions": [
+          {
+            "expr": "periodo"
+          },
+          {
+            "expr": "estrato"
+          },
+          {
+            "name": "estrato_desc",
+            "expr": "COALESCE(CAST(estrato AS STRING), 'No residencial')"
+          },
+          {
+            "expr": "codigo_concepto"
+          },
+          {
+            "expr": "concepto"
+          }
+        ],
+        "measures": [
+          {
+            "name": "num_suscriptores",
+            "expr": "SUM(num_suscriptores)"
+          },
+          {
+            "name": "consumo_total_m3",
+            "expr": "SUM(consumo_total_m3)"
+          },
+          {
+            "name": "valor_cargo_fijo",
+            "expr": "SUM(valor_cargo_fijo)"
+          },
+          {
+            "name": "valor_consumo",
+            "expr": "SUM(valor_consumo)"
+          },
+          {
+            "name": "valor_total_facturado",
+            "expr": "SUM(valor_total_facturado)"
+          },
+          {
+            "name": "tarifa_media_m3",
+            "expr": "SUM(valor_consumo) / NULLIF(SUM(consumo_total_m3), 0)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "kpi_cartera",
+      "displayName": "KPI_CARTERA_SUSCRIPTOR",
+      "config": {
+        "version": "1.1",
+        "source": "catalog_pysmartdata.golden.kpi_cartera_suscriptor",
+        "dimensions": [
+          {
+            "expr": "suscriptor"
+          },
+          {
+            "expr": "periodo"
+          },
+          {
+            "expr": "estrato"
+          },
+          {
+            "expr": "estado_pago"
+          },
+          {
+            "expr": "fecha_ultimo_pago"
+          }
+        ],
+        "measures": [
+          {
+            "name": "num_suscriptores",
+            "expr": "COUNT(DISTINCT suscriptor)"
+          },
+          {
+            "name": "valor_facturado",
+            "expr": "SUM(valor_facturado)"
+          },
+          {
+            "name": "valor_pagado",
+            "expr": "SUM(valor_pagado)"
+          },
+          {
+            "name": "saldo_pendiente",
+            "expr": "SUM(saldo_pendiente)"
+          },
+          {
+            "name": "num_pagos",
+            "expr": "SUM(num_pagos)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "kpi_calidad",
+      "displayName": "KPI_CALIDAD_DATOS",
+      "config": {
+        "version": "1.1",
+        "source": "catalog_pysmartdata.golden.kpi_calidad_datos",
+        "dimensions": [
+          {
+            "expr": "tabla_origen"
+          },
+          {
+            "expr": "periodo"
+          },
+          {
+            "expr": "motivo_rechazo"
+          },
+          {
+            "expr": "registros_bronze"
+          },
+          {
+            "expr": "registros_validos"
+          },
+          {
+            "expr": "fecha_validacion"
+          }
+        ],
+        "measures": [
+          {
+            "name": "registros_rechazados",
+            "expr": "SUM(registros_rechazados)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "kpi_recaudo",
+      "displayName": "KPI_RECAUDO_PERIODO",
+      "config": {
+        "version": "1.1",
+        "source": "catalog_pysmartdata.golden.kpi_recaudo_periodo",
+        "dimensions": [
+          {
+            "expr": "periodo"
+          },
+          {
+            "expr": "tipo_recaudo"
+          },
+          {
+            "expr": "entidad"
+          },
+          {
+            "expr": "descripcion_entidad"
+          },
+          {
+            "expr": "codigo_punto_recaudo"
+          },
+          {
+            "expr": "descripcion_punto_recaudo"
+          },
+          {
+            "expr": "fecha_pago"
+          }
+        ],
+        "measures": [
+          {
+            "name": "num_pagos",
+            "expr": "SUM(num_pagos)"
+          },
+          {
+            "name": "valor_recaudado",
+            "expr": "SUM(valor_recaudado)"
+          },
+          {
+            "name": "pago_promedio",
+            "expr": "SUM(valor_recaudado) / NULLIF(SUM(num_pagos), 0)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "kpi_indice_recaudo",
+      "displayName": "KPI_INDICE_RECAUDO",
+      "config": {
+        "version": "1.1",
+        "source": "catalog_pysmartdata.golden.kpi_indice_recaudo",
+        "dimensions": [
+          {
+            "expr": "periodo"
+          },
+          {
+            "expr": "estrato"
+          },
+          {
+            "name": "estrato_desc",
+            "expr": "COALESCE(CAST(estrato AS STRING), 'No residencial')"
+          }
+        ],
+        "measures": [
+          {
+            "name": "num_suscriptores_facturados",
+            "expr": "SUM(num_suscriptores_facturados)"
+          },
+          {
+            "name": "num_suscriptores_con_pago",
+            "expr": "SUM(num_suscriptores_con_pago)"
+          },
+          {
+            "name": "num_suscriptores_morosos",
+            "expr": "SUM(num_suscriptores_morosos)"
+          },
+          {
+            "name": "valor_facturado",
+            "expr": "SUM(valor_facturado)"
+          },
+          {
+            "name": "valor_recaudado",
+            "expr": "SUM(valor_recaudado)"
+          },
+          {
+            "name": "saldo_pendiente",
+            "expr": "SUM(saldo_pendiente)"
+          },
+          {
+            "name": "indice_recaudo",
+            "expr": "SUM(valor_recaudado) / NULLIF(SUM(valor_facturado), 0)"
+          },
+          {
+            "name": "porcentaje_morosidad",
+            "expr": "SUM(num_suscriptores_morosos) / NULLIF(SUM(num_suscriptores_facturados), 0)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "detalle_suscriptor",
+      "displayName": "KPI_DETALLE_SUSCRIPTOR",
+      "config": {
+        "source": "catalog_pysmartdata.golden.kpi_detalle_suscriptor",
+        "measures": [
+          {
+            "name": "valor_facturado",
+            "expr": "SUM(valor_facturado)"
+          },
+          {
+            "name": "valor_recaudado",
+            "expr": "SUM(valor_pagado)"
+          },
+          {
+            "name": "saldo_pendiente",
+            "expr": "SUM(saldo_pendiente)"
+          },
+          {
+            "name": "consumo_m3",
+            "expr": "SUM(consumo_m3)"
+          }
+        ],
+        "filter": "periodo BETWEEN 202607 AND 202609",
+        "version": "1.1",
+        "dimensions": [
+          {
+            "expr": "suscriptor"
+          },
+          {
+            "expr": "nombre_cliente"
+          },
+          {
+            "name": "suscriptor_cliente",
+            "expr": "CONCAT(CAST(suscriptor AS STRING), ' - ', COALESCE(TRIM(nombre_cliente), 'Sin nombre'))"
+          },
+          {
+            "expr": "periodo"
+          },
+          {
+            "expr": "estrato"
+          },
+          {
+            "name": "estrato_desc",
+            "expr": "COALESCE(CAST(estrato AS STRING), 'No residencial')"
+          },
+          {
+            "expr": "estado_pago"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "08eda359",
+      "displayName": "Resumen",
+      "layout": [
+        {
+          "widget": {
+            "name": "valor-facturado-del-202607-al-2029609",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_indice_recaudo",
+                  "fields": [
+                    {
+                      "name": "measure(valor_facturado)",
+                      "expression": "MEASURE(`valor_facturado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showDescription": true,
+                "showTitle": true,
+                "title": {
+                  "value": "VALOR FACTURADO",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Periodos 202607 a 202609 · mil M = miles de millones",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(valor_facturado)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "COP",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c07819bb",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_indice_recaudo",
+                  "fields": [
+                    {
+                      "name": "measure(valor_recaudado)",
+                      "expression": "MEASURE(`valor_recaudado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showDescription": true,
+                "showTitle": true,
+                "title": {
+                  "value": "VALOR RECAUDADO",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Periodos 202607 a 202609 · mil M = miles de millones",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(valor_recaudado)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "COP",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "2d3c94ef",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_cartera",
+                  "fields": [
+                    {
+                      "name": "measure(num_suscriptores)",
+                      "expression": "MEASURE(`num_suscriptores`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`estado_pago` IS NULL OR `estado_pago` NOT IN ('PAGO_SIN_FACTURA')"
+                    },
+                    {
+                      "expression": "IN_RANGE(`periodo`, 202607D, 202609D)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showDescription": true,
+                "showTitle": true,
+                "title": {
+                  "value": "SUSCRIPTORES FACTURADOS",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Únicos · Periodos 202607 a 202609",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(num_suscriptores)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "8ff17919",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_facturacion",
+                  "fields": [
+                    {
+                      "name": "measure(consumo_total_m3)",
+                      "expression": "MEASURE(`consumo_total_m3`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showDescription": true,
+                "showTitle": true,
+                "title": {
+                  "value": "CONSUMO FACTURADO (M3)",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Periodos 202607 a 202609 · M = millones",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(consumo_total_m3)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "saldo_pendiente",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_indice_recaudo",
+                  "fields": [
+                    {
+                      "name": "measure(saldo_pendiente)",
+                      "expression": "MEASURE(`saldo_pendiente`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": {
+                  "value": "SALDO PENDIENTE",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Periodos 202607 a 202609 · mil M = miles de millones",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(saldo_pendiente)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "COP",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "logo_adm",
+            "imageSpec": {
+              "image": {
+                "source": {
+                  "url": "https://adb-7405608330011095.15.azuredatabricks.net/ajax-api/2.0/workspace/export?path=/Workspace/Users/mzuloaga%40aguasdemanizales.com.co/PY_SMARTDATA_2026/dashboard/logo%20AdM%20full%20color.png&direct_download=true&format=AUTO&o=7405608330011095"
+                },
+                "altText": "Logo Aguas de Manizales"
+              },
+              "frame": {},
+              "style": {
+                "sizeMode": "SIZE_MODE_FIT",
+                "horizontalAlign": "HORIZONTAL_ALIGN_LEFT",
+                "verticalAlign": "VERTICAL_ALIGN_CENTER"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "titulo",
+            "spec": {
+              "version": 1,
+              "widgetType": "text",
+              "verticalAlign": "center",
+              "style": {
+                "fontColor": {
+                  "light": "#26346F",
+                  "dark": "#90E0EF"
+                }
+              },
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## AGUAS DE MANIZALES\n",
+                    "\n",
+                    "## Facturación y Recaudo – Acueducto\n",
+                    "\n",
+                    "Periodos 202607 a 202609"
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 9,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "periodos",
+      "displayName": "Distribucion por periodo",
+      "layout": [
+        {
+          "widget": {
+            "name": "logo_adm",
+            "imageSpec": {
+              "image": {
+                "source": {
+                  "url": "https://adb-7405608330011095.15.azuredatabricks.net/ajax-api/2.0/workspace/export?path=/Workspace/Users/mzuloaga%40aguasdemanizales.com.co/PY_SMARTDATA_2026/dashboard/logo%20AdM%20full%20color.png&direct_download=true&format=AUTO&o=7405608330011095"
+                },
+                "altText": "Logo Aguas de Manizales"
+              },
+              "frame": {},
+              "style": {
+                "sizeMode": "SIZE_MODE_FIT",
+                "horizontalAlign": "HORIZONTAL_ALIGN_LEFT",
+                "verticalAlign": "VERTICAL_ALIGN_CENTER"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "titulo",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "verticalAlign": "center",
+              "style": {
+                "fontColor": {
+                  "light": "#26346F",
+                  "dark": "#90E0EF"
+                }
+              },
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Distribución por periodo – Facturación y Recaudo Acueducto\n",
+                    "\n",
+                    "Comparativo de los periodos 202607, 202608 y 202609"
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 9,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "facturado_vs_recaudado",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_indice_recaudo",
+                  "fields": [
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "measure(valor_facturado)",
+                      "expression": "MEASURE(`valor_facturado`)"
+                    },
+                    {
+                      "name": "measure(valor_recaudado)",
+                      "expression": "MEASURE(`valor_recaudado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": {
+                  "value": "FACTURADO VS RECAUDADO POR PERIODO",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Pesos colombianos · mil M = miles de millones",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "layout": "group"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "periodo",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Valor (COP)"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "COP",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "measure(valor_facturado)",
+                      "displayName": "Facturado"
+                    },
+                    {
+                      "fieldName": "measure(valor_recaudado)",
+                      "displayName": "Recaudado"
+                    }
+                  ]
+                },
+                "color": {
+                  "legend": {
+                    "position": "bottom"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "morosidad_periodo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_indice_recaudo",
+                  "fields": [
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "measure(porcentaje_morosidad)",
+                      "expression": "MEASURE(`porcentaje_morosidad`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "MOROSIDAD POR PERIODO",
+                "description": {
+                  "value": "% de suscriptores facturados sin pago o con pago parcial",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  "#2A9D8F"
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "periodo",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(porcentaje_morosidad)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  },
+                  "displayName": "Morosidad",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "nota_202609",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "verticalAlign": "center",
+              "style": {
+                "fontColor": {
+                  "light": "#1B6F66",
+                  "dark": "#95D5B2"
+                }
+              },
+              "encodings": {
+                "text": {
+                  "fields": [],
+                  "lines": [
+                    "**Nota sobre el periodo 202609:** la morosidad alta (44,5 %) y el menor recaudo no indican un deterioro real. Las facturas de 202609 se pagan en los meses siguientes y esos pagos aún no están cargados completos; los valores se ajustarán cuando ingresen los recaudos pendientes."
+                  ]
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 12,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "detalle_estrato",
+      "displayName": "Detalle por periodo y estrato",
+      "layout": [
+        {
+          "widget": {
+            "name": "logo_adm",
+            "imageSpec": {
+              "image": {
+                "source": {
+                  "url": "https://adb-7405608330011095.15.azuredatabricks.net/ajax-api/2.0/workspace/export?path=/Workspace/Users/mzuloaga%40aguasdemanizales.com.co/PY_SMARTDATA_2026/dashboard/logo%20AdM%20full%20color.png&direct_download=true&format=AUTO&o=7405608330011095"
+                },
+                "altText": "Logo Aguas de Manizales"
+              },
+              "frame": {},
+              "style": {
+                "sizeMode": "SIZE_MODE_FIT",
+                "horizontalAlign": "HORIZONTAL_ALIGN_LEFT",
+                "verticalAlign": "VERTICAL_ALIGN_CENTER"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "titulo",
+            "spec": {
+              "style": {
+                "fontColor": {
+                  "light": "#26346F",
+                  "dark": "#90E0EF"
+                }
+              },
+              "verticalAlign": "center",
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "fields": [],
+                  "lines": [
+                    "## Detalle por periodo y estrato – Facturación y Recaudo Acueducto\n",
+                    "Consumo m3, valor facturado y valor recaudado · Periodos 202607 a 202609"
+                  ]
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 9,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "pivot_consumo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_facturacion",
+                  "fields": [
+                    {
+                      "name": "estrato_desc",
+                      "expression": "`estrato_desc`"
+                    },
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "measure(consumo_total_m3)",
+                      "expression": "MEASURE(`consumo_total_m3`)"
+                    },
+                    {
+                      "name": "measure(valor_cargo_fijo)",
+                      "expression": "MEASURE(`valor_cargo_fijo`)"
+                    },
+                    {
+                      "name": "measure(valor_total_facturado)",
+                      "expression": "MEASURE(`valor_total_facturado`)"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "estrato_desc"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "periodo"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "ASC",
+                      "expression": "`estrato_desc`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`periodo`"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": {
+                  "value": "CONSUMO Y FACTURACIÓN POR ESTRATO Y PERIODO",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Consumo en m3, cargo fijo y valor total facturado (todos los conceptos)",
+                  "fields": []
+                }
+              },
+              "version": 4,
+              "widgetType": "pivot",
+              "encodings": {
+                "rows": {
+                  "fields": [
+                    {
+                      "fieldName": "estrato_desc",
+                      "format": {
+                        "type": "alias",
+                        "mappings": [
+                          {
+                            "value": null,
+                            "alias": "No residencial"
+                          }
+                        ]
+                      },
+                      "displayName": "Estrato",
+                      "scale": {
+                        "type": "categorical"
+                      }
+                    }
+                  ]
+                },
+                "columns": {
+                  "fields": [
+                    {
+                      "fieldName": "periodo",
+                      "displayName": "Periodo",
+                      "scale": {
+                        "type": "categorical"
+                      }
+                    }
+                  ]
+                },
+                "cells": {
+                  "displayAs": "columns",
+                  "fields": [
+                    {
+                      "fieldName": "measure(consumo_total_m3)",
+                      "format": {
+                        "type": "number-plain",
+                        "abbreviation": "none",
+                        "decimalPlaces": {
+                          "type": "max",
+                          "places": 0
+                        }
+                      },
+                      "displayName": "Consumo m3",
+                      "cellType": "text"
+                    },
+                    {
+                      "fieldName": "measure(valor_cargo_fijo)",
+                      "format": {
+                        "type": "number-currency",
+                        "currencyCode": "COP",
+                        "abbreviation": "compact",
+                        "decimalPlaces": {
+                          "type": "max",
+                          "places": 2
+                        }
+                      },
+                      "displayName": "Cargo fijo",
+                      "cellType": "text"
+                    },
+                    {
+                      "fieldName": "measure(valor_total_facturado)",
+                      "format": {
+                        "type": "number-currency",
+                        "currencyCode": "COP",
+                        "abbreviation": "compact",
+                        "decimalPlaces": {
+                          "type": "max",
+                          "places": 2
+                        }
+                      },
+                      "displayName": "Valor facturado",
+                      "cellType": "text"
+                    }
+                  ]
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "pivot_recaudo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_indice_recaudo",
+                  "fields": [
+                    {
+                      "name": "estrato_desc",
+                      "expression": "`estrato_desc`"
+                    },
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "measure(valor_facturado)",
+                      "expression": "MEASURE(`valor_facturado`)"
+                    },
+                    {
+                      "name": "measure(valor_recaudado)",
+                      "expression": "MEASURE(`valor_recaudado`)"
+                    },
+                    {
+                      "name": "measure(saldo_pendiente)",
+                      "expression": "MEASURE(`saldo_pendiente`)"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "estrato_desc"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "periodo"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "ASC",
+                      "expression": "`estrato_desc`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`periodo`"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": {
+                  "value": "FACTURADO VS RECAUDADO POR ESTRATO Y PERIODO",
+                  "fields": []
+                },
+                "description": {
+                  "value": "Pesos colombianos · 202609 con recaudo aún incompleto",
+                  "fields": []
+                }
+              },
+              "version": 4,
+              "widgetType": "pivot",
+              "encodings": {
+                "rows": {
+                  "fields": [
+                    {
+                      "fieldName": "estrato_desc",
+                      "displayName": "Estrato",
+                      "scale": {
+                        "type": "categorical"
+                      }
+                    }
+                  ]
+                },
+                "columns": {
+                  "fields": [
+                    {
+                      "fieldName": "periodo",
+                      "displayName": "Periodo",
+                      "scale": {
+                        "type": "categorical"
+                      }
+                    }
+                  ]
+                },
+                "cells": {
+                  "displayAs": "columns",
+                  "fields": [
+                    {
+                      "fieldName": "measure(valor_facturado)",
+                      "format": {
+                        "type": "number-currency",
+                        "currencyCode": "COP",
+                        "abbreviation": "compact",
+                        "decimalPlaces": {
+                          "type": "max",
+                          "places": 2
+                        }
+                      },
+                      "displayName": "Facturado",
+                      "cellType": "text"
+                    },
+                    {
+                      "fieldName": "measure(valor_recaudado)",
+                      "format": {
+                        "type": "number-currency",
+                        "currencyCode": "COP",
+                        "abbreviation": "compact",
+                        "decimalPlaces": {
+                          "type": "max",
+                          "places": 2
+                        }
+                      },
+                      "displayName": "Recaudado",
+                      "cellType": "text"
+                    },
+                    {
+                      "fieldName": "measure(saldo_pendiente)",
+                      "format": {
+                        "type": "number-currency",
+                        "currencyCode": "COP",
+                        "abbreviation": "compact",
+                        "decimalPlaces": {
+                          "type": "max",
+                          "places": 2
+                        }
+                      },
+                      "displayName": "Saldo",
+                      "cellType": "text"
+                    }
+                  ]
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 12,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "suscriptor",
+      "displayName": "Detalle por suscriptor",
+      "layout": [
+        {
+          "widget": {
+            "name": "logo_adm",
+            "imageSpec": {
+              "image": {
+                "source": {
+                  "url": "https://adb-7405608330011095.15.azuredatabricks.net/ajax-api/2.0/workspace/export?path=/Workspace/Users/mzuloaga%40aguasdemanizales.com.co/PY_SMARTDATA_2026/dashboard/logo%20AdM%20full%20color.png&direct_download=true&format=AUTO&o=7405608330011095"
+                },
+                "altText": "Logo Aguas de Manizales"
+              },
+              "frame": {},
+              "style": {
+                "sizeMode": "SIZE_MODE_FIT",
+                "horizontalAlign": "HORIZONTAL_ALIGN_LEFT",
+                "verticalAlign": "VERTICAL_ALIGN_CENTER"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "titulo",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "verticalAlign": "center",
+              "style": {
+                "fontColor": {
+                  "light": "#26346F",
+                  "dark": "#90E0EF"
+                }
+              },
+              "encodings": {
+                "text": {
+                  "fields": [],
+                  "lines": [
+                    "## Detalle por suscriptor – Facturación y Recaudo Acueducto\n",
+                    "Seleccione un suscriptor para ver su comportamiento de facturado, recaudado, saldo y consumo m3"
+                  ]
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 9,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "f_suscriptor",
+            "queries": [
+              {
+                "name": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_suscriptor_cliente",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "suscriptor_cliente",
+                      "expression": "`suscriptor_cliente`"
+                    },
+                    {
+                      "name": "suscriptor_cliente_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Suscriptor"
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "suscriptor_cliente",
+                    "queryName": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_suscriptor_cliente"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "g_valores",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "measure(valor_facturado)",
+                      "expression": "MEASURE(`valor_facturado`)"
+                    },
+                    {
+                      "name": "measure(valor_recaudado)",
+                      "expression": "MEASURE(`valor_recaudado`)"
+                    },
+                    {
+                      "name": "measure(saldo_pendiente)",
+                      "expression": "MEASURE(`saldo_pendiente`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "FACTURADO, RECAUDADO Y SALDO POR PERIODO"
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  "#0077B6",
+                  "#2A9D8F",
+                  "#F4A261"
+                ],
+                "layout": "group"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "periodo",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "COP",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "measure(valor_facturado)",
+                      "displayName": "Facturado"
+                    },
+                    {
+                      "fieldName": "measure(valor_recaudado)",
+                      "displayName": "Recaudado"
+                    },
+                    {
+                      "fieldName": "measure(saldo_pendiente)",
+                      "displayName": "Saldo pendiente"
+                    }
+                  ]
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 8,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "g_consumo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "measure(consumo_m3)",
+                      "expression": "MEASURE(`consumo_m3`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "CONSUMO M3 POR PERIODO"
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  "#00B4D8"
+                ],
+                "marker": {
+                  "shape": "circle"
+                }
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "periodo",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(consumo_m3)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  },
+                  "displayName": "Consumo m3",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 3,
+            "width": 4,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "tabla",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "suscriptor",
+                      "expression": "`suscriptor`"
+                    },
+                    {
+                      "name": "nombre_cliente",
+                      "expression": "`nombre_cliente`"
+                    },
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "estrato_desc",
+                      "expression": "`estrato_desc`"
+                    },
+                    {
+                      "name": "estado_pago",
+                      "expression": "`estado_pago`"
+                    },
+                    {
+                      "name": "measure(consumo_m3)",
+                      "expression": "MEASURE(`consumo_m3`)"
+                    },
+                    {
+                      "name": "measure(valor_facturado)",
+                      "expression": "MEASURE(`valor_facturado`)"
+                    },
+                    {
+                      "name": "measure(valor_recaudado)",
+                      "expression": "MEASURE(`valor_recaudado`)"
+                    },
+                    {
+                      "name": "measure(saldo_pendiente)",
+                      "expression": "MEASURE(`saldo_pendiente`)"
+                    }
+                  ],
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "ASC",
+                      "expression": "`suscriptor`"
+                    },
+                    {
+                      "direction": "ASC",
+                      "expression": "`periodo`"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "DETALLE POR SUSCRIPTOR Y PERIODO",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "suscriptor",
+                    "useForSearch": true,
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "hideGroupSeparator": true
+                    },
+                    "displayName": "Suscriptor"
+                  },
+                  {
+                    "fieldName": "nombre_cliente",
+                    "useForSearch": true,
+                    "displayName": "Cliente"
+                  },
+                  {
+                    "fieldName": "periodo",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "hideGroupSeparator": true
+                    },
+                    "displayName": "Periodo"
+                  },
+                  {
+                    "fieldName": "estrato_desc",
+                    "displayName": "Estrato"
+                  },
+                  {
+                    "fieldName": "estado_pago",
+                    "displayName": "Estado pago"
+                  },
+                  {
+                    "fieldName": "measure(consumo_m3)",
+                    "format": {
+                      "type": "number-plain",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 0
+                      }
+                    },
+                    "displayName": "Consumo m3"
+                  },
+                  {
+                    "fieldName": "measure(valor_facturado)",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "COP",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 0
+                      }
+                    },
+                    "displayName": "Facturado"
+                  },
+                  {
+                    "fieldName": "measure(valor_recaudado)",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "COP",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 0
+                      }
+                    },
+                    "displayName": "Recaudado"
+                  },
+                  {
+                    "fieldName": "measure(saldo_pendiente)",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "COP",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "max",
+                        "places": 0
+                      }
+                    },
+                    "displayName": "Saldo pendiente"
+                  }
+                ],
+                "rowOrder": [
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 0
+                    }
+                  },
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 2
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "f_periodo",
+            "queries": [
+              {
+                "name": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_periodo",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "periodo",
+                      "expression": "`periodo`"
+                    },
+                    {
+                      "name": "periodo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Periodo"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "periodo",
+                    "queryName": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_periodo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f_estrato",
+            "queries": [
+              {
+                "name": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_estrato_desc",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "estrato_desc",
+                      "expression": "`estrato_desc`"
+                    },
+                    {
+                      "name": "estrato_desc_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Estrato"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "estrato_desc",
+                    "queryName": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_estrato_desc"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 3,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "nota_filtro",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "verticalAlign": "top",
+              "style": {
+                "fontColor": {
+                  "light": "#1B6F66",
+                  "dark": "#95D5B2"
+                }
+              },
+              "encodings": {
+                "text": {
+                  "fields": [],
+                  "lines": [
+                    "**Nota sobre los datos de esta hoja:** solo se incluyen los periodos 202607 a 202609. Use el filtro **Estado de pago** para decidir qué registros ver; los totales de gráficas y tabla cambian según los estados seleccionados.\n",
+                    "\n",
+                    "- **AL_DIA:** el suscriptor pagó el valor facturado del periodo. Saldo pendiente en cero.\n",
+                    "- **PAGO_PARCIAL:** pagó menos de lo facturado. Genera saldo pendiente positivo.\n",
+                    "- **SIN_PAGO:** tiene factura pero no registra pagos. Todo lo facturado queda como saldo pendiente; es la principal causa de morosidad (en 202609 incluye pagos que aún no se han cargado).\n",
+                    "- **SALDO_A_FAVOR:** pagó más de lo facturado. El saldo es negativo y reduce el saldo pendiente total.\n",
+                    "- **RECUPERACION_CARTERA:** pagos que se aplican a deuda de periodos anteriores. Aumentan el recaudado sin corresponder a la facturación del periodo.\n",
+                    "- **PAGO_SIN_FACTURA:** pagos de suscriptores sin factura en el periodo (p. ej. abonos anticipados). No tienen facturado, consumo ni nombre de cliente, por eso aparecen vacíos; al excluirlos, el recaudado será menor que el del Resumen.\n"
+                  ]
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "f_estado_pago",
+            "queries": [
+              {
+                "name": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_estado_pago",
+                "query": {
+                  "datasetName": "detalle_suscriptor",
+                  "fields": [
+                    {
+                      "name": "estado_pago",
+                      "expression": "`estado_pago`"
+                    },
+                    {
+                      "name": "estado_pago_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Estado de pago"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "estado_pago",
+                    "queryName": "dashboards/01f1dc6e554f1703abc53915201c9932/datasets/01f1dc80cc9a11bc925ac038e043ef90_estado_pago"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 3,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#EAF4F8",
+        "dark": "#0B1F2A"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#12303F"
+      },
+      "widgetBorderColor": {
+        "light": "#B9DCE8",
+        "dark": "#1E4A5E"
+      },
+      "selectionColor": {
+        "light": "#0077B6",
+        "dark": "#48CAE4"
+      },
+      "visualizationColors": [
+        "#0077B6",
+        "#2A9D8F",
+        "#00B4D8",
+        "#52B788",
+        "#023E8A",
+        "#90E0EF",
+        "#1B4332",
+        "#95D5B2"
+      ],
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "widgetPadding": 16,
+      "widgetCornerRadius": 12,
+      "widgetShadow": 20,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter"
+        },
+        "widgetTitle": {
+          "fontColor": {
+            "light": "#023E8A",
+            "dark": "#90E0EF"
+          },
+          "fontWeight": 700
+        },
+        "widgetDescription": {
+          "fontColor": {
+            "light": "#2A9D8F",
+            "dark": "#95D5B2"
+          }
+        },
+        "fieldValue": {
+          "fontColor": {
+            "light": "#0B3C5D",
+            "dark": "#E0F4FA"
+          }
+        }
+      }
+    },
+    "applyModeEnabled": false
+  }
+}
